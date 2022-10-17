@@ -12,7 +12,17 @@ typedef enum {
 	DEF_3
 } my_int;
 
-void Fun2(int arg1, uint32_t arg2, int* ptr)
+struct my_struct {
+    void* voidptr;
+    int integer;
+};
+
+union my_union {
+    void* voidptr;
+    int integer;
+};
+
+void Fun2(int arg1, uint32_t arg2, int* ptr, struct my_struct s, union my_union u)
 {
 	*ptr = arg1;
 	void* ptr2 = ptr+1;
@@ -22,8 +32,13 @@ void Fun2(int arg1, uint32_t arg2, int* ptr)
 uint32_t Fun1(const int arg1, my_int arg2, uint32_t arg3)
 {
 	int my_local = arg1 + 2;
+	struct my_struct s;
+	union my_union u;
+	s.integer = 5;
+	s.voidptr = &u;
+	u.integer = 5;
 	printf("%d\n", my_local);
-	Fun2(my_local, arg3, (int*)0x12345);
+	Fun2(my_local, arg3, (int*)0x12345, s, u);
 	return arg2;
 }
 
